@@ -8,6 +8,13 @@ import { fileURLToPath } from "node:url";
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const commentsFilePath = path.join(__dirname, "../data/comments.json");
+const allowedOrigins = new Set([
+  "http://localhost:5173",
+  ...(process.env.CLIENT_ORIGIN ?? "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean)
+]);
 const supabase =
   process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
     ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
@@ -15,7 +22,18 @@ const supabase =
 
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN ?? "http://localhost:5173",
+    origin(origin, callback) {
+      if (
+        !origin ||
+        allowedOrigins.has(origin) ||
+        /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin)
+      ) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
     credentials: true
   })
 );
