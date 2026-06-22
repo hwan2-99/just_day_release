@@ -55,9 +55,11 @@ button:disabled {
 }
 
 .countdown {
+  display: grid;
+  gap: 8px;
   margin: 28px 0 0;
   color: #383238;
-  font-size: clamp(22px, 4vw, 36px);
+  font-size: clamp(22px, 4vw, 34px);
   font-weight: 800;
   line-height: 1.35;
   word-break: keep-all;
@@ -65,6 +67,7 @@ button:disabled {
 
 .countdown strong {
   color: #e35288;
+  font-size: clamp(28px, 6vw, 48px);
 }
 
 .comments {

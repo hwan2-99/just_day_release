@@ -115,7 +115,8 @@ function App() {
       <section className="hero" aria-label="카운트다운">
         <img className="character-image" src="/character.png" alt="Just Day 캐릭터" />
         <p className="countdown">
-          10월 15일 까지 남은 시간은 <strong>{countdownText}</strong> 남았습니다
+          <span>석방(10월 15일)까지 남은 시간</span>
+          <strong>{countdownText}</strong>
         </p>
       </section>
 
